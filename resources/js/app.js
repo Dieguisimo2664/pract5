@@ -52,6 +52,7 @@ document.addEventListener('click', function(e) {
     if (e.target.classList.contains('product-body')) {
 
         console.log(e.target)
+        console.log(e.target)
         
     }
 
