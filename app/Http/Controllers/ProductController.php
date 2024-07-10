@@ -68,29 +68,28 @@ class ProductController extends Controller {
     }
 
 
-    public function allCategorys() {
+    public function viewDetailP($idp = null) {
+        // Decodificar $idp de base64
+        $decodedIdp = base64_decode($idp);
+    
         // Obtener todos los productos
         $products = Product::all();
     
-        // Inicializar un array vacío para almacenar categorías únicas
-        $uniqueCategories = [];
+        // Buscar el producto cuyo id coincida con $decodedIdp
+        $selectedProduct = $products->first(function ($product) use ($decodedIdp) {
+            return $product->id == $decodedIdp;
+        });
     
-        // Iterar sobre cada producto para obtener la categoría y agregarla al array único
-        foreach ($products as $product) {
-            $category = $product->category;
-    
-            // Verificar si la categoría ya existe en el array único
-            if (!in_array($category, $uniqueCategories)) {
-                // Si no existe, agregarla al array único
-                $uniqueCategories[] = $category;
-            }
+        // Verificar si se encontró un producto
+        if ($selectedProduct) {
+            // Retornar la vista con el producto encontrado
+            /* dd($selectedProduct); */
+            return view('product.detail-view', compact('selectedProduct'));
+        } else {
+            // Manejar el caso donde no se encontró el producto (puedes redirigir, mostrar un mensaje de error, etc.)
+            // Por ejemplo, podrías redirigir a una página de error 404
+            abort(404);
         }
-    
-        // Ahora $uniqueCategories contiene todas las categorías únicas
-        // Puedes hacer lo que necesites con este array, como devolverlo desde la función
-
-        
-        return view('welcome', compact('uniqueCategories'));
     }
    
 

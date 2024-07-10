@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
@@ -136,7 +136,7 @@
 
                 @foreach($products as $product)
 
-                    <div class="product-body">
+                    <a href="/detail/{{{ base64_encode(json_encode($product->id)) }}}" class="product-body" data-data="{{ base64_encode(json_encode($product)) }}">
                         <div class="nc pb-img-container">
                             <img class="pb-img" src="{{ explode(',', $product->media)[0] }}">
                         </div>
@@ -145,7 +145,7 @@
                             <p class="pb-name-product">{{ $product->name }}</p>
                             <span class="pb-price-product">{{ '$ ' . number_format($product->price, 2, ',', '.') }}</span> 
                         </div>
-                    </div>
+                    </a>
 
                 @endforeach
 
@@ -192,6 +192,20 @@
             
         </div>
         
+    </template>
+
+    <template class="template-p-detail">
+        <div class="detail-view-bgrd">
+            <div class="detail-view">
+                <div class="dt-view-sct1">
+                    <img class="dt-lg-img" src="" alt="image">
+                </div>
+                <div class="dt-view-sct2">
+                    <div class="dt-view-sct2--sct1"></div>
+                    <div class="dt-view-sct2--sct2"></div>
+                </div>
+            </div>
+        </div>
     </template>
 
     

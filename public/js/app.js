@@ -1,5 +1,6 @@
 var categoryDisplayed = "mix"
 const templateProduct = document.querySelector('.template-product').content;
+const templateDetailP = document.querySelector('.template-p-detail').content;
 const productsContainer = document.querySelector('.products-container');
 
 let products = [];
@@ -50,9 +51,6 @@ document.addEventListener('click', function(e) {
     }
 
     if (e.target.classList.contains('product-body')) {
-
-        console.log(e.target)
-        console.log(e.target)
         
     }
 
