@@ -71,23 +71,29 @@ class ProductController extends Controller {
     public function viewDetailP($idp = null) {
         // Decodificar $idp de base64
         $decodedIdp = base64_decode($idp);
-    
+        
         // Obtener todos los productos
         $products = Product::all();
-    
+        
         // Buscar el producto cuyo id coincida con $decodedIdp
         $selectedProduct = $products->first(function ($product) use ($decodedIdp) {
             return $product->id == $decodedIdp;
         });
-    
+        
         // Verificar si se encontró un producto
         if ($selectedProduct) {
-            // Retornar la vista con el producto encontrado
-            /* dd($selectedProduct); */
-            return view('product.detail-view', compact('selectedProduct'));
+            // Obtener la categoría del producto seleccionado
+            $category = $selectedProduct->category;
+            
+            // Filtrar los productos que coincidan con la misma categoría, excluyendo el producto seleccionado
+            $relatedProducts = $products->reject(function ($product) use ($category, $selectedProduct) {
+                return $product->id == $selectedProduct->id || $product->category != $category;
+            })->all();
+            
+            // Retornar la vista con el producto encontrado y los productos relacionados
+            return view('product.detail-view', compact('selectedProduct', 'relatedProducts'));
         } else {
             // Manejar el caso donde no se encontró el producto (puedes redirigir, mostrar un mensaje de error, etc.)
-            // Por ejemplo, podrías redirigir a una página de error 404
             abort(404);
         }
     }
